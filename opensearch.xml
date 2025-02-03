@@ -4,8 +4,8 @@
   <ShortName>DISC Documentation</ShortName>
   <Description>Search DISC Documentation</Description>
   <InputEncoding>UTF-8</InputEncoding>
-  <Image width="16" height="16" type="image/x-icon">https://disc-nu.github.io/DISC-Documentation-Website/img/favicon.ico</Image>
-  <Url type="text/html" method="get" template="https://disc-nu.github.io/DISC-Documentation-Website/search?q={searchTerms}"/>
-  <Url type="application/opensearchdescription+xml" rel="self" template="https://disc-nu.github.io/DISC-Documentation-Website/opensearch.xml" />
-  <moz:SearchForm>https://disc-nu.github.io/DISC-Documentation-Website/</moz:SearchForm>
+  <Image width="16" height="16" type="image/x-icon">https://docs.discnu.org/DISC-Documentation-Website/img/favicon.ico</Image>
+  <Url type="text/html" method="get" template="https://docs.discnu.org/DISC-Documentation-Website/search?q={searchTerms}"/>
+  <Url type="application/opensearchdescription+xml" rel="self" template="https://docs.discnu.org/DISC-Documentation-Website/opensearch.xml" />
+  <moz:SearchForm>https://docs.discnu.org/DISC-Documentation-Website/</moz:SearchForm>
 </OpenSearchDescription>
