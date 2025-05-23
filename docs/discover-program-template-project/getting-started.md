@@ -20,7 +20,7 @@ if you are not the member of your team responsible for setting up the starter te
 
 ### Forking the Template Repositories
 
-Next, you need too:
+Next, you need to:
 
 1. Navigate to the template repositories:
    - Frontend: https://github.com/disc-template/frontend
