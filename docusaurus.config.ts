@@ -105,7 +105,7 @@ const config: Config = {
           type: "doc",
           docId: "intro",
           position: "left",
-          label: "Discover Program Template",
+          label: "Discover Program",
           docsPluginId: "discover-program-template-project",
         },
         {
