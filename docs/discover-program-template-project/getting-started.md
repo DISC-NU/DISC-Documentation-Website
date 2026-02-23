@@ -135,9 +135,9 @@ FIREBASE_SERVICE_ACCOUNT_KEY='{"type":"service_account","project_id":"your-proje
 
 # Server Configuration
 PORT=5050
-FRONTEND_URL=http://localhost:3001
+FRONTEND_URL=http://localhost:5173
 API_URL=http://localhost:5050
-FRONTEND_URL_DEV=http://localhost:3001
+FRONTEND_URL_DEV=http://localhost:5173
 NODE_ENV=development
 
 ```
@@ -205,12 +205,12 @@ For both the frontend and backend directories just do the following:
 _you will probably need to open two terminals for this!_
 
 ```bash
-npm start
+npm run dev
 ```
 
 Backend server will start at `http://localhost:5050`
 
-Frontend server will start at `http://localhost:3001`
+Frontend server will start at `http://localhost:5173`
 
 1. Your authentication should now be configured for both email and Google login
 2. Test both methods in development:
