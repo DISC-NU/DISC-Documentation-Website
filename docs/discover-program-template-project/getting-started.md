@@ -8,23 +8,38 @@ sidebar_position: 1
 
 :::info
 
-**This entire setup should setup should be done only by _one person_ on the team** It should take anywhere between 3-6 hours to complete
+**This entire setup should setup should be done only by _one person_ on the team** It should take anywhere between 1-3 hours to complete. If it is taking any longer, PLEASE contact a tech lead for help!
 
 if you are not the member of your team responsible for setting up the starter template, scroll to the bottom
 :::
 
+### Keeping track of Account Logins
+
+1. Create a Google Drive for the team if one doesn't exist. Make sure to invite everyone.
+
+2. Create a Google Doc to keep track of the accounts you create.
+
+3. Keep this tab open for the next two steps.
+
+### Creating your Google Account
+
+1. You need to create your own Google account (unless one was provided to you from your client) if they don't already have one.
+2. Complete your Google profile setup.
+3. Save the login information to the Google Docs.
+
 ### Creating Your GitHub Account
 
 1. You need to create your own GitHub account (unless one was provided to you from your client) at https://github.com/signup if they don't already have one
-2. Complete your GitHub profile setup and verify your email address
+2. Complete your GitHub profile setup and verify your email address.
+3. Save the login information to the Google Docs.
 
 ### Forking the Template Repositories
 
 Next, you need too:
 
 1. Navigate to the template repositories:
-   - Frontend: https://github.com/disc-template/frontend
-   - Backend: https://github.com/disc-template/backend
+   - Frontend: https://github.com/bbrockbrown/js-frontend
+   - Backend: https://github.com/bbrockbrown/js-backend
 2. Click the "Fork" button in the top-right corner of each repository
 3. Select your personal GitHub account as the destination for the fork
 
@@ -43,8 +58,8 @@ Before you begin, make sure you have:
 - [Node.js](https://nodejs.org/) version 18.0 or higher
 - [Git](https://git-scm.com/) for version control
 - A code editor (we recommend [VS Code](https://code.visualstudio.com/))
-- [Supabase](https://supabase.com/) account
-- [Google Cloud Console](https://console.cloud.google.com/) account (for OAuth)
+- [Google](https://google.com/) account
+- [Firebase](https://console.firebase.google.com/u/0/?pli=1) account (Will be linked to your google account)
 
 ## Installation
 
@@ -78,8 +93,20 @@ touch .env
 4. Copy this template for the frontend `.env`
 
 ```javascript
-REACT_APP_BACKEND_URL=http://localhost:5050
+# Server Configuration
+VITE_BACKEND_URL=http://localhost:5050
+
+# Firebase Configuration (from Firebase Console > Project Settings > Your apps)
+VITE_FIREBASE_API_KEY=your_api_key
+VITE_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=your-project-id
+VITE_FIREBASE_STORAGE_BUCKET=your-project.firebasestorage.app
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
+VITE_FIREBASE_MEASUREMENT_ID=G-XXXXXXXXXX
+
 ```
+Instructions for finding these keys will be in the following **Firebase** section.
 
 5. Change directories into the backend
 
@@ -103,38 +130,26 @@ touch .env
 8. Copt this template for the backend `.env`
 
 ```javascript
-SUPABASE_URL= #your supabase url here
-SUPABASE_ANON_KEY= # your supabase anon key here
-PORT=5050 # this is the default that we used when making the template
-FRONTEND_URL=http://localhost:3001 # this is the default we used when making the template
-API_URL=http://localhost:5050 # this is the default we used when making the template
-FRONTEND_URL_DEV=http://localhost:3001 # this is the default we used when making the template
-NODE_ENV=development # NOTE: you should change this to `production` when you deploy to vercel!!!!
+# Firebase Configuration
+FIREBASE_SERVICE_ACCOUNT_KEY='{"type":"service_account","project_id":"your-project-id",...}' # Your Firebase service account JSON
+
+# Server Configuration
+PORT=5050
+FRONTEND_URL=http://localhost:3001
+API_URL=http://localhost:5050
+FRONTEND_URL_DEV=http://localhost:3001
+NODE_ENV=development
+
 ```
 
-## Supabase Setup
+## Firebase Setup
 
 ### 1. Create a Project
 
-1. Go to [Supabase Dashboard](https://supabase.com/dashboard)
-2. Click "New Project"
+1. Go to [Firebase Dashboard](https://console.firebase.google.com/u/0/?pli=1)
+2. Make sure you are not on the Northwestern email, it will get stuck at "select parent resources". **You must be on the designated email account for the project**.
+2. Create a new project (No AI Features)
 3. Fill in project details
-
-### 2. Create Users Table
-
-Run this SQL in the Supabase SQL editor:
-
-```sql
-CREATE TABLE users (
-  id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-  username VARCHAR(255) UNIQUE NOT NULL,
-  email VARCHAR(255) UNIQUE NOT NULL,
-  firstname VARCHAR(255),
-  lastname VARCHAR(255),
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()),
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW())
-);
-```
 
 <!-- ### 3. Configure Authentication
 
@@ -143,90 +158,45 @@ CREATE TABLE users (
 3. Configure Email templates (optional) _do not worry about this for now please_
 4. Set Site URL to your frontend URL \_this is going to be localhost to start off, you will change it to your deployed url on vercel later -->
 
-### 3. Configure Authentication
+### 2. Configure Authentication
 
-1. Go to Authentication settings in Supabase dashboard:
+1. Go to Build -> Authentication settings on the left sidebar:
 
-   - Log into your Supabase account
+2. Click "Get Started"
 
-   - Select your project
+3. Under "Native Providers", select "email/password"
 
-   - Click on "Authentication" in the left sidebar
+4. Enable the first option "Email/Password" but NOT "Email Link". Click **Save**.
 
-   - Click on "Providers" tab
+### 3. Google OAuth Setup
 
-2. Enable Email auth provider:
+Thankfully, Firebase comes with OAuth integrated.
 
-   - Find "Email" in the list of providers
+1. Inside the Authentication tab, under "Sign-in method", click on **Add new provider**.
 
-   - Toggle the switch to enable it
+2. Select **Google**. Click enable.
 
-   - Under "Email Provider Settings", keep defaults for now
+3. Fill in "public-facing name" with something. I recommend client-name-disc
 
-3. Set Site URL to your frontend URL:
+4. Choose your own email for support email.
 
-   - In the left sidebar, click on "URL Configuration"
+### 4. Configure Frontend ENV variables
 
-   - For Site URL, enter: http://localhost:3001
+Now, we need to fill in the frontend env with the proper variables.
+1. Look under Project Overview
+2. Create a new "app" if you haven't already
+3. Click "web" and fill in the project name. You do not need to set up Firebase Hosting yet. 
+4. Once you click **continue**, you will be shown the following keys to fill in your .env.
+5. To find the measurement ID, you must go to Project Settings -> Integrations and enable Google Analytics.
 
-   - Save changes
+### 5. Configure Backend ENV variables
 
-   - Note: You'll update this to your Vercel URL after deployment
+The backend also needs a special key called the **service account key**.
 
-## Google OAuth Setup
-
-:::info
-Note that for this section, you will _not_ be able to do the following steps with your northwestern email! Either create a new gmail account for a team or delegate someone to be the sole owner of the google cloud console
-:::
-
-### 1. Google Cloud Console Setup
-
-1. Create a new project:
-
-   - Go to [Google Cloud Console](https://console.cloud.google.com/)
-   - Click the project dropdown at the top
-   - Click "New Project"
-   - Enter a project name and click "Create"
-
-2. Enable Google OAuth API:
-
-   - In the left sidebar, go to "APIs & Services" > "Library"
-   - Search for "Google OAuth2"
-   - Click on "Google OAuth2 API"
-   - Click "Enable"
-
-3. Configure OAuth consent screen:
-
-   - Go to "APIs & Services" > "OAuth consent screen"
-   - Choose "External" user type
-   - Fill in required fields:
-     - App name
-     - User support email
-     - Developer contact email
-   - For Scopes, add: "email" and "profile"
-   - Skip adding test users for now
-   - Click "Save and Continue" through remaining steps
-
-4. Create OAuth 2.0 Client ID:
-   - Go to "APIs & Services" > "Credentials"
-   - Click "Create Credentials" > "OAuth client ID"
-   - Choose "Web application" as Application type
-   - Name your client
-   - Add these Authorized redirect URIs:
-     - `[YOUR_SUPABASE_URL]/auth/v1/callback`
-       (Find your Supabase URL in your project settings)
-     - `http://localhost:3000/auth/callback`
-   - Click "Create"
-   - **Important**: Save the Client ID and Client Secret that appear - you'll need these for Supabase
-
-### 2. Supabase OAuth Configuration
-
-1. Configure Google provider in Supabase:
-   - In your Supabase dashboard, go to Authentication > Providers
-   - Find Google in the list
-   - Toggle to enable it
-   - Paste your Google Client ID and Client Secret from the previous step
-   - Save changes
+1. Navigate to Project Settings -> Service Accounts
+2. Under Firebase Admin SDK, generate a new private key.
+3. Confirm and download the JSON file. **This is your private key, do not upload it anywhere public**.
+4. Copy and paste the content of the JSON file into FIREBASE_SERVICE_ACCOUNT_KEY. Note that the whole value needs to be wrapped in a quote.
 
 ## Verify Setup
 

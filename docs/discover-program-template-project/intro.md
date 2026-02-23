@@ -38,7 +38,7 @@ Our template uses a modern JavaScript/TypeScript stack:
 ### Backend
 
 - Node.js and Express for the server
-- PostgreSQL (via Supabase) for database
+- PostgreSQL (via Firebase) for database
 - ESLint and Prettier for code formatting
 
 ### Development Tools
