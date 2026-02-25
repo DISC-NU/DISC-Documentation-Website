@@ -33,12 +33,12 @@ Our template uses a modern JavaScript/TypeScript stack:
 - React for UI components
 - React Router v7 for navigation
 - styled-components for styling
-- Supabase for authentication
+- Firebase for authentication
 
 ### Backend
 
 - Node.js and Express for the server
-- PostgreSQL (via Firebase) for database
+- PostgreSQL (via AWS) for database
 - ESLint and Prettier for code formatting
 
 ### Development Tools
