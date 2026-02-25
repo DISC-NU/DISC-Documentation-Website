@@ -45,8 +45,8 @@ Next, you need too:
 
 ```mermaid
 graph TB
-    A[disc-template/frontend] -->|Fork| B[your-account/frontend]
-    C[disc-template/backend] -->|Fork| D[your-account/backend]
+    A[bbrockbrown/js-frontend] -->|Fork| B[your-account/js-frontend]
+    C[bbrockbrown/js-backend] -->|Fork| D[your-account/js-backend]
     B -->|Deploy| E[Vercel Frontend]
     D -->|Deploy| F[Vercel Backend]
 ```
@@ -73,14 +73,14 @@ mkdir disc-template
 1. Clone the repositories:
 
 ```bash
-git clone https://github.com/YOUR_NEW_GITHUB_ACCOUNT/frontend.git
-git clone https://github.com/YOUR_NEW_GITHUB_ACCOUNT/backend.git
+git clone https://github.com/bbrockbrown/js-frontend.git
+git clone https://github.com/bbrockbrown/js-backend.git
 ```
 
 2. Install dependencies for the frontend:
 
 ```bash
-cd frontend
+cd js-frontend
 npm i
 ```
 
@@ -112,7 +112,7 @@ Instructions for finding these keys will be in the following **Firebase** sectio
 
 ```bash
 cd ..
-cd backend
+cd js-backend
 ```
 
 6. Install dependencies for the backend
@@ -239,10 +239,8 @@ Once you have verified that **everything** works, share the `.env` credentials w
 ### Available Scripts
 
 - `npm run dev` - Start development server
-- `npm start` - Start production server
-- `npm test` - Run tests
-- `npm run lint` - Run ESLint
-- `npm run format` - Format code with Prettier
+- `npm run test` - Run tests (if you have any)
+- `npm run lint` - Format all files with Prettier
 
 ## Instructions for Everyone Else
 

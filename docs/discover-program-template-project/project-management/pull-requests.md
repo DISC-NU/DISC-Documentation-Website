@@ -15,10 +15,6 @@ This guide outlines best practices for writing pull request and reviewing pull r
 _every member of your team should be both making pull-requests and reviewing PRs_
 :::
 
-## Making a Pull Request (PR)
-
-Both the `frontend` and `backend` repositories have a `PULL_REQUEST_TEMPLATE.md` file. It has the basic outline and structure for writing your PR. **At minimum**, you should be filling in _all_ of the boxes that are mentioned in the PR template markdown file
-
 ### Writing PR Descriptions
 
 When writing your PR, you need to make sure that you at least write a description that does the following:
@@ -32,10 +28,6 @@ When writing your PR, you need to make sure that you at least write a descriptio
 
 The exception to this being if you need a package for displaying graphs, maps, etc etc.
 :::
-
-### Review all CI/CD Pipelines
-
-As always, we make it so that _all_ CI/CD pipelines (right now just formatting and linting) are passing. You **must** pass the CI/CD pipelines before requesting anyone in your team to review your PR. This is to ensure that you code meets a standard of code quality before being merged into the main branch
 
 ## Reviewing Pull Requests
 
@@ -170,7 +162,6 @@ Approve the PR when:
 - Code meets quality standards
 - Tests pass (if applicable)
 - Documentation is updated
-- CI/CD pipelines are passing
 
 ### **When to Request Changes**
 

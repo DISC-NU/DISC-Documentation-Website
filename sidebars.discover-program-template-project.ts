@@ -52,11 +52,6 @@ const discoverProgramSidebar: SidebarsConfig = {
           id: "frontend/deployment",
           label: "Deployment",
         },
-        {
-          type: "doc",
-          id: "frontend/contributing",
-          label: "Contributing",
-        },
       ],
     },
     {

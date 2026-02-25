@@ -195,7 +195,7 @@ git push origin feature/your-feature
 Development server:
 
 ```bash
-npm start
+npm run dev
 ```
 
 Run tests:

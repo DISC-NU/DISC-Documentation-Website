@@ -39,7 +39,7 @@ The source directory contains all application code, organized into specific subd
 
 ### `assets/`
 
-Contains static files that are not code:
+Contains static files that are not code. You will create this folder:
 
 - `icons/`: SVG icon files used throughout the application
 - Images, fonts, and other media files
