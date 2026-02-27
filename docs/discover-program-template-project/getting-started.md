@@ -140,6 +140,10 @@ API_URL=http://localhost:5050
 FRONTEND_URL_DEV=http://localhost:5173
 NODE_ENV=development
 
+DB_TYPE=postgres
+# Supabase Postgres Configuration
+POSTGRES_URL=your_sb_postgres_url
+
 ```
 
 ## Firebase Setup
@@ -197,6 +201,55 @@ The backend also needs a special key called the **service account key**.
 2. Under Firebase Admin SDK, generate a new private key.
 3. Confirm and download the JSON file. **This is your private key, do not upload it anywhere public**.
 4. Copy and paste the content of the JSON file into FIREBASE_SERVICE_ACCOUNT_KEY. Note that the whole value needs to be wrapped in a quote.
+
+## Supabase Setup
+
+To start off, we will use Supabase + PostgresSQL for the database. We have set up the codebase to migrating over to AWS is easy, more on that later.
+
+1. Go to [Supabase](https://supabase.com)
+2. Sign Up with the dedicated email for the team through Google OAuth.
+3. Create a new organization (name it whatever you want, preferably your client's company)
+4. Go into that org you just created
+5. Click "New Project"
+6. Fill in the details. REMEMBER YOUR DATABASE PASSWORD. Keep Data API enabled.
+7. Once you create the project, click on "connect" near the top of the screen.
+8. Under "Connection String", change method to "Transaction Pooler" and copy text provided to you. This is your POSTGRES_URL.
+9. Now, go back to your backend .env and paste that string into POSTGRES_URL. Replace [YOUR-PASSWORD] with the password you created earlier (no square brackets).
+
+Now, we need to create the users table.
+
+1. In Supabase, navigate to SQL Editor.
+2. Paste in the following code and run:
+
+```javascript
+`CREATE TABLE IF NOT EXISTS users (
+  id            SERIAL PRIMARY KEY,
+  firebase_uid  VARCHAR(128) NOT NULL,
+  username      VARCHAR(50)  NOT NULL,
+  email         VARCHAR(255) NOT NULL,
+  firstname     VARCHAR(100) DEFAULT NULL,
+  lastname      VARCHAR(100) DEFAULT NULL,
+  created_at    TIMESTAMPTZ  NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at    TIMESTAMPTZ  NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+  CONSTRAINT idx_firebase_uid UNIQUE (firebase_uid),
+  CONSTRAINT idx_username     UNIQUE (username),
+  CONSTRAINT idx_email        UNIQUE (email)
+);
+
+CREATE OR REPLACE FUNCTION update_updated_at_column()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = CURRENT_TIMESTAMP;
+    RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+CREATE TRIGGER update_users_updated_at
+    BEFORE UPDATE ON users
+    FOR EACH ROW
+    EXECUTE PROCEDURE update_updated_at_column();
+```
 
 ## Verify Setup
 
