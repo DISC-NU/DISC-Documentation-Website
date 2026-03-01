@@ -133,17 +133,16 @@ touch .env
 # Firebase Configuration
 FIREBASE_SERVICE_ACCOUNT_KEY='{"type":"service_account","project_id":"your-project-id",...}' # Your Firebase service account JSON
 
+# Database Configuration
+# Supabase: found in supabase.com → project → Project Settings → Database → Connection string (URI)
+DATABASE_URL=postgresql://postgres:[password]@db.[project-ref].supabase.co:5432/postgres
+
 # Server Configuration
 PORT=5050
-FRONTEND_URL=http://localhost:5173
+FRONTEND_URL=https://your-production-url.com
 API_URL=http://localhost:5050
 FRONTEND_URL_DEV=http://localhost:5173
 NODE_ENV=development
-
-DB_TYPE=postgres
-# Supabase Postgres Configuration
-POSTGRES_URL=your_sb_postgres_url
-
 ```
 
 ## Firebase Setup
@@ -213,8 +212,8 @@ To start off, we will use Supabase + PostgresSQL for the database. We have set u
 5. Click "New Project"
 6. Fill in the details. REMEMBER YOUR DATABASE PASSWORD. Keep Data API enabled.
 7. Once you create the project, click on "connect" near the top of the screen.
-8. Under "Connection String", change method to "Transaction Pooler" and copy text provided to you. This is your POSTGRES_URL.
-9. Now, go back to your backend .env and paste that string into POSTGRES_URL. Replace [YOUR-PASSWORD] with the password you created earlier (no square brackets).
+8. Under "Connection String", change method to "Transaction Pooler" and copy text provided to you. This is your DATABASE_URL.
+9. Now, go back to your backend .env and paste that string into DATABASE_URL. Replace [YOUR-PASSWORD] with the password you created earlier (no square brackets).
 
 Now, we need to create the users table.
 
@@ -222,33 +221,16 @@ Now, we need to create the users table.
 2. Paste in the following code and run:
 
 ```javascript
-`CREATE TABLE IF NOT EXISTS users (
-  id            SERIAL PRIMARY KEY,
-  firebase_uid  VARCHAR(128) NOT NULL,
-  username      VARCHAR(50)  NOT NULL,
-  email         VARCHAR(255) NOT NULL,
-  firstname     VARCHAR(100) DEFAULT NULL,
-  lastname      VARCHAR(100) DEFAULT NULL,
-  created_at    TIMESTAMPTZ  NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at    TIMESTAMPTZ  NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-  CONSTRAINT idx_firebase_uid UNIQUE (firebase_uid),
-  CONSTRAINT idx_username     UNIQUE (username),
-  CONSTRAINT idx_email        UNIQUE (email)
+CREATE TABLE IF NOT EXISTS users (
+  id           SERIAL PRIMARY KEY,
+  firebase_uid VARCHAR(128) NOT NULL UNIQUE,
+  username     VARCHAR(50)  NOT NULL UNIQUE,
+  email        VARCHAR(255) NOT NULL UNIQUE,
+  firstname    VARCHAR(100) DEFAULT NULL,
+  lastname     VARCHAR(100) DEFAULT NULL,
+  created_at   TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
+  updated_at   TIMESTAMPTZ  NOT NULL DEFAULT NOW()
 );
-
-CREATE OR REPLACE FUNCTION update_updated_at_column()
-RETURNS TRIGGER AS $$
-BEGIN
-    NEW.updated_at = CURRENT_TIMESTAMP;
-    RETURN NEW;
-END;
-$$ language 'plpgsql';
-
-CREATE TRIGGER update_users_updated_at
-    BEFORE UPDATE ON users
-    FOR EACH ROW
-    EXECUTE PROCEDURE update_updated_at_column();
 ```
 
 ## Verify Setup
